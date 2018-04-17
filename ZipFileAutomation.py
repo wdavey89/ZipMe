@@ -11,7 +11,7 @@ def main():
         year = int(sys.argv[3])
         args(directoryInput, month, year)
         
-
+# Asses the arguments passed and create the directory
 def args(directoryInput, month, year):
     try:
         directory = os.chdir(directoryInput)
@@ -25,7 +25,7 @@ def args(directoryInput, month, year):
     zipMe(directory, archivePath, month, year)
     
 
-
+# If no arguments are passed, user will be asked to input the directory, month & year
 def getInfo():
     directory = input('Enter Directory: ')
     try:
@@ -52,7 +52,7 @@ def getInfo():
     zipMe(directory, archivePath, month, year)
     useAgain()
     
-
+# This is where the logfile and ZipFile is created and written to.
 def zipMe(directory, archivePath, month, year):
     zipDate = str(month)+ str(year) + '.zip'
     currentDateTime = datetime.datetime.now().strftime('%d-%m-%Y %H-%M-%S')
@@ -81,10 +81,10 @@ def zipMe(directory, archivePath, month, year):
                     logFile.close()
                     newZip.close()
                     print(found)
-                    #send2trash.send2trash(found)
+                    os.unlink(found)
     checkZipFolder(month, year, zipDate, archivePath)
     
-
+# Checks to see if a valid zip folder was created and if it contains files. 
 def checkZipFolder(month, year, zipDate, archivePath):
     os.chdir(archivePath)
     checkZip = zipfile.is_zipfile(zipDate)
@@ -96,7 +96,7 @@ def checkZipFolder(month, year, zipDate, archivePath):
         print('No files were found with the month: {} or year: {}'.format(month, year))
         main()
         
-
+# Asks the user if they want to use the program again. You'll only get this if you've inputted information manually.
 def useAgain():
     zipAgain = input('Would you like to use the program again? Yes / No : ').lower()
     if zipAgain == 'y' or zipAgain == 'yes':
